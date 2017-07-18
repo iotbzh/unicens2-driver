@@ -1,0 +1,9 @@
+# 
+# Udev Rules for Microchip USB/Net adaptator
+# Author: fulup/at/iot.bzh
+# Date  : Avril 2017
+# Object: Load Unload MOST driver when device is plug/unplug
+# Debug : udevadm monitor --property
+
+ACTION=="add", ATTRS{manufacturer}=="Microchip-SMSC", SUBSYSTEMS=="usb" ATTRS{idVendor}=="0424", ATTRS{idProduct}=="cf18", GROUP="audio", MODE="0770", RUN+="/sbin/modprobe mostnet" 
+ACTION=="remove", ENV{ID_MODEL}=="OS81118", RUN+="/sbin/modprobe -r mostnet" 
