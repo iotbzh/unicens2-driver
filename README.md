@@ -14,7 +14,7 @@ But use dkms.conf as main config entry file.
 Author   : Fulup Ar Foll (fulup-at-iot.bzh)
 Date     : Feb-2017
 Licence  : What ever you want until you fix problems by yourself
-Reference: <http://xmodulo.com/build-kernel-module-dkms-linux.html>
+Reference: http://xmodulo.com/build-kernel-module-dkms-linux.html
 ```
 
 ### step1: Installing kernel devel on your distro
@@ -130,4 +130,13 @@ sudo dkms status                                       # list all dkms installed
 sudo dkms status -m mld -v $VERSION                    # status of MOST kernel driver only
 sudo dkms uninstall status -m mld -v $VERSION          # remove MOST kernel module
 sudo dkms remove  -m mld -v $VERSION --verbose --all   # clean build directory
+```
+
+### Archive project
+
+```bash
+VERSION=1.5.0
+GIT_TAG=master
+PKG_NAME=unicens2-driver
+git archive --format=tar.gz --prefix=agl-${PKG_NAME}-${VERSION}/ ${GIT_TAG} -o agl-${PKG_NAME}_${VERSION}.orig.tar.gz
 ```
