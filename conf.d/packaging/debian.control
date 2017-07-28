@@ -1,0 +1,13 @@
+Priority: optional
+Maintainer: Fulup, Ar Foll <fulup@iot.bzh>
+Source: agl-unicens-driver
+Build-Depends: debhelper (>= 5),
+ linux-headers-generic,
+ gcc
+Standards-Version: 3.8.2
+Homepage: https://github.com/iotbzh/unicens-driver
+
+Package: agl-unicens-driver
+Section: libs
+Architecture: any
+Description: Microchip UNICENS driver

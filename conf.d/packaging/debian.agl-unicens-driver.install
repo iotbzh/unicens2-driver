@@ -1,0 +1,3 @@
+/etc/modprobe.d/45-mostnet.conf
+/usr/lib/udev/rules.d/45-mostnet.rules
+/lib/modules/*/kernel/drivers/*/*

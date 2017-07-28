@@ -95,7 +95,7 @@ Sources : <https://github.com/dell/dkms>
 ### step4: Install Most Kernel Modules
 
 ```bash
-export VERSION=1.5.0
+export VERSION=1.6.0
 git clone https://github.com/iotbzh/unicens2-driver.git
 cd unicens2-driver
 sudo cp -R mld-$VERSION /usr/src
@@ -135,7 +135,7 @@ sudo dkms remove  -m mld -v $VERSION --verbose --all   # clean build directory
 ### Archive project
 
 ```bash
-VERSION=1.5.0
+VERSION=1.6.0
 GIT_TAG=master
 PKG_NAME=unicens2-driver
 git archive --format=tar.gz --prefix=agl-${PKG_NAME}-${VERSION}/ ${GIT_TAG} -o agl-${PKG_NAME}_${VERSION}.orig.tar.gz

@@ -1,0 +1,98 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+
+
+CFLAGS = -Wall -g
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+		 CFLAGS += -O0
+else
+		 CFLAGS += -O2
+endif
+ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+		 INSTALL_PROGRAM += -s
+endif
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+	#
+	touch configure-stamp
+
+build: build-stamp
+build-stamp: configure-stamp
+	dh_testdir
+	KERNEL_INFO=$$(ls /lib/modules/);mkdir $$PWD/modules;ln -s /usr/src/linux-headers-$${KERNEL_INFO} $$PWD/modules/build
+	make -C $$PWD/modules/build modules_install modules M=$$PWD/mld-1.6.0 \
+		C_INCLUDE_PATH=$$PWD/mld-1.6.0/mostcore:$$PWD/mld-1.6.0/aim-network \
+		CONFIG_MOSTCORE=m CONFIG_MOSTCONF=m\
+		CONFIG_AIM_CDEV=m\
+		CONFIG_AIM_NETWORK=m\
+		CONFIG_AIM_SOUND=m\
+		CONFIG_HDM_USB=m\
+		CONFIG_AIM_V4L2=m\
+		CONFIG_HDM_DIM2=m\
+		CONFIG_HDM_I2C=m\
+		MODLIB=$$PWD/modules/user_build
+	#
+	touch build-stamp
+
+clean:
+	#dh_testdir
+	dh_testroot
+	rm -f configure-stamp build-stamp
+	[ ! -f Makefile ] || $(MAKE) distclean
+	#dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+	# Add here commands to install the package into debian/tmp
+	make -C $$PWD/modules/build modules_install M=$$PWD/mld-1.6.0/ MODLIB=$$PWD/modules/user_build
+	KERNEL_INFO=$$(ls /lib/modules/);mkdir -p debian/tmp/lib/modules/$${KERNEL_INFO}/kernel/drivers/
+	KERNEL_INFO=$$(ls /lib/modules/);mv $$PWD/modules/user_build/extra/* debian/tmp/lib/modules/$${KERNEL_INFO}/kernel/drivers/
+
+	mkdir -p debian/tmp/etc/modprobe.d
+	mkdir -p debian/tmp/usr/lib/udev/rules.d
+	cp mld-1.6.0/config-scripts/45-mostnet.conf  debian/tmp/etc/modprobe.d/
+	cp mld-1.6.0/config-scripts/45-mostnet.rules debian/tmp/usr/lib/udev/rules.d
+
+	# Move all files in their corresponding package
+	dh_install --list-missing -s --sourcedir=debian/tmp
+	# empty dependency_libs in .la files
+	#sed -i "/dependency_libs/ s/'.*'/''/" `find debian/ -name '*.la'`
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+	dh_installdocs
+	dh_installexamples
+	dh_installman
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_makeshlibs -V
+	dh_installdeb
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install
