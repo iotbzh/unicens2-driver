@@ -1944,7 +1944,7 @@ static int __init most_init(void)
 {
 	int err;
 
-	pr_info("MOST Linux Driver mld-1.5.0 1c83488137bfd994e2436494d4b46d6b73508a12\n");
+	pr_info("MOST Linux Driver mld-1.6.0 7fc9b3d4d2a9f8c98eba590db6575cbec68cc996\n");
 	INIT_LIST_HEAD(&instance_list);
 	INIT_LIST_HEAD(&aim_list);
 	INIT_LIST_HEAD(&config_probes);

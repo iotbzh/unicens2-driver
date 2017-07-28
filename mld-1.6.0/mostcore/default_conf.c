@@ -15,6 +15,7 @@
 #include <linux/module.h>
 
 static struct most_config_probe config_probes[] = {
+
 	/* USB */
 	{
 		.ch_name = "ep8f",
@@ -47,6 +48,7 @@ static struct most_config_probe config_probes[] = {
 			.buffer_size = 1522,
 		},
 		.aim_name = "networking",
+		.aim_param = "inic-usb-arx",
 	},
 	{
 		.ch_name = "ep0e",
@@ -57,35 +59,118 @@ static struct most_config_probe config_probes[] = {
 			.buffer_size = 1522,
 		},
 		.aim_name = "networking",
+		.aim_param = "inic-usb-atx",
 	},
 	{
-		/* ALSA stereo channel going to AuxIO board and SlimAmp */
+		.ch_name = "ep87",
+		.cfg = {
+			.direction = MOST_CH_RX,
+			.data_type = MOST_CH_CONTROL,
+			.num_buffers = 16,
+			.buffer_size = 64,
+		},
+		.aim_name = "cdev",
+		.aim_param = "inic-usb-crx",
+	},
+	{
+		.ch_name = "ep07",
+		.cfg = {
+			.direction = MOST_CH_TX,
+			.data_type = MOST_CH_CONTROL,
+			.num_buffers = 16,
+			.buffer_size = 64,
+		},
+		.aim_name = "cdev",
+		.aim_param = "inic-usb-ctx",
+	},
+	{
+		.ch_name = "ep86",
+		.cfg = {
+			.direction = MOST_CH_RX,
+			.data_type = MOST_CH_ASYNC,
+			.num_buffers = 20,
+			.buffer_size = 1522,
+		},
+		.aim_name = "networking",
+		.aim_param = "inic-usb-arx",
+	},
+	{
+		.ch_name = "ep06",
+		.cfg = {
+			.direction = MOST_CH_TX,
+			.data_type = MOST_CH_ASYNC,
+			.num_buffers = 20,
+			.buffer_size = 1522,
+		},
+		.aim_name = "networking",
+		.aim_param = "inic-usb-atx",
+	},
+	{
 		.ch_name = "ep01",
 		.cfg = {
 			.direction = MOST_CH_TX,
 			.data_type = MOST_CH_SYNC,
 			.num_buffers = 4,
-			.subbuffer_size = 4,
-			.packets_per_xact = 64,
-			.buffer_size = 4 * 64 * 10,
+			.buffer_size = 2 * 12 * 42,
+			.subbuffer_size = 12,
+			.packets_per_xact = 42,
 		},
 		.aim_name = "sound",
-		.aim_param = "ep01.2x16",
+		.aim_param = "ep01-6ch.6x16",
 	},
 	{
 		.ch_name = "ep02",
 		.cfg = {
 			.direction = MOST_CH_TX,
-			.data_type = MOST_CH_ISOC,
-			.num_buffers = 16,
-			.buffer_size = 40 * 188,
-			.subbuffer_size = 188,
-			.packets_per_xact = 2,
+			.data_type = MOST_CH_SYNC,
+			.num_buffers = 4,
+			.buffer_size = 2 * 4 * 128,
+			.subbuffer_size = 4,
+			.packets_per_xact = 128,
 		},
-		.aim_name = "cdev",
-		.aim_param = "inic-usb-itx",
+		.aim_name = "sound",
+		.aim_param = "ep02-2ch.2x16",
 	},
-
+	{
+		.ch_name = "ep81",
+		.cfg = {
+			.direction = MOST_CH_RX,
+			.data_type = MOST_CH_SYNC,
+			.num_buffers = 4,
+			.buffer_size = 2 * 12 * 42,
+			.subbuffer_size = 12,
+			.packets_per_xact = 42,
+		},
+		.aim_name = "sound",
+		.aim_param = "ep81-6ch.6x16",
+	},
+	{
+		.ch_name = "ep82",
+		.cfg = {
+			.direction = MOST_CH_RX,
+			.data_type = MOST_CH_SYNC,
+			.num_buffers = 4,
+			.buffer_size = 2 * 12 * 42,
+			.subbuffer_size = 12,
+			.packets_per_xact = 42,
+		},
+		.aim_name = "sound",
+		.aim_param = "ep82-6ch.6x16",
+	},
+	{
+		.ch_name = "ep83",
+		.cfg = {
+			.direction = MOST_CH_RX,
+			.data_type = MOST_CH_SYNC,
+			.num_buffers = 4,
+			.buffer_size = 2 * 4 * 128,
+			.subbuffer_size = 4,
+			.packets_per_xact = 128,
+		},
+		.aim_name = "sound",
+		.aim_param = "ep83-2ch.2x16",
+	},
+	
 	/* sentinel */
 	{}
 };

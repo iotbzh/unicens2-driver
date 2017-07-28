@@ -1,5 +1,5 @@
 obj-$(CONFIG_MOSTCORE)	  += mostcore/
-obj-$(CONFIG_MOSTCONF)    += def-config/
+obj-$(CONFIG_MOSTCONF)    += mostcore/
 obj-$(CONFIG_AIM_CDEV)	  += aim-cdev/
 obj-$(CONFIG_AIM_NETWORK) += aim-network/
 obj-$(CONFIG_AIM_SOUND)	  += aim-sound/
