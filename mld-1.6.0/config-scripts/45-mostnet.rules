@@ -6,4 +6,6 @@
 # Debug : udevadm monitor --property
 
 ACTION=="add", ATTRS{manufacturer}=="Microchip-SMSC", SUBSYSTEMS=="usb" ATTRS{idVendor}=="0424", ATTRS{idProduct}=="cf18", GROUP="audio", MODE="0770", RUN+="/sbin/modprobe mostnet" 
-ACTION=="remove", ENV{ID_MODEL}=="OS81118", RUN+="/sbin/modprobe -r mostnet" 
+ACTION=="remove", ENV{ID_MODEL}=="OS81118", RUN+="/sbin/modprobe -r mostnet"
+ACTION=="add", ATTRS{manufacturer}=="Microchip-SMSC", SUBSYSTEMS=="usb" ATTRS{idVendor}=="0424", ATTRS{idProduct}=="cf30", GROUP="audio", MODE="0770", RUN+="/sbin/modprobe mostnet"
+ACTION=="remove", ENV{ID_MODEL}=="OS81210", RUN+="/sbin/modprobe -r mostnet"
